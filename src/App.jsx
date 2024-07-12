@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Form from './Form';
+import CV from './CV';
 
 function Header({ props }) {
   // take in state, isEdit?
-  const click = () => console.log(props);
+  const click = () => props();
 
   return (
     <header>
@@ -15,12 +16,17 @@ function Header({ props }) {
   );
 }
 
-function Content(cb) {
-  return <Form cb={cb} />;
+function Content({ isEdit, data, cb }) {
+  return <>{isEdit ? <Form cb={cb} /> : <CV data={data} />}</>;
 }
 
 export default function App() {
+  const [isEdit, setIsEdit] = useState(true);
   const [data, setData] = useState([]);
+
+  const renderCV = () => {
+    setIsEdit(!isEdit);
+  };
 
   const addData = (newData, id) => {
     setData(previous => {
@@ -46,8 +52,8 @@ export default function App() {
 
   return (
     <>
-      <Header props={data} />
-      <Content cb={addData} />
+      <Header props={renderCV} />
+      <Content isEdit={isEdit} data={data} cb={addData} />
     </>
   );
 }

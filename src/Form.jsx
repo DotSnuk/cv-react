@@ -19,7 +19,7 @@ function Input({ cb, props }) {
 
 const submitButton = () => {};
 
-export default function Form({ cb }) {
+export default function Form(cb) {
   return (
     <form>
       <Heading txt={'About you'} />
