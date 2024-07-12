@@ -33,15 +33,16 @@ export default function App() {
       const existItemIndex = previous.findIndex(item => item.id === id);
       if (existItemIndex !== -1) {
         const updateData = [...previous];
-        updateData[existItemIndex] = { ...updateData[existItemIndex], newData };
+        updateData[existItemIndex] = {
+          ...updateData[existItemIndex],
+          inputData: newData,
+        };
         return updateData;
       }
 
-      return [...previous, { id, newData }];
+      return [...previous, { id, inputData: newData }];
     });
   };
-
-  //     setData(d => [...d, { id, newData }]);
 
   return (
     <>
