@@ -16,8 +16,29 @@ function Header({ props }) {
   );
 }
 
+function isName(val) {
+  return val.id === 'firstname' || val.id === 'lastname';
+}
+
+function compareName(a, b) {
+  if (a.id > b.id) return 1;
+  return -1;
+}
+
+function joinName(data) {
+  const newData = [...data];
+  const filteredData = newData.filter(isName).sort((a, b) => compareName(a, b));
+  const name = filteredData.map(d => d.inputData).join(' ');
+  filteredData.map(d => {
+    const indx = newData.findIndex(item => item.id === d.id);
+    newData.splice(indx, 1);
+  });
+  return [{ id: 'name', group: 'about', inputData: name }, ...newData];
+}
+
 function Content({ isEdit, data, cb }) {
-  return <>{isEdit ? <Form cb={cb} /> : <CV data={data} />}</>;
+  if (isEdit) return <Form cb={cb} />;
+  return <CV data={joinName(data)} />;
 }
 
 export default function App() {
@@ -28,7 +49,7 @@ export default function App() {
     setIsEdit(!isEdit);
   };
 
-  const addData = (newData, id) => {
+  const addData = (newData, group, id) => {
     setData(previous => {
       // if input is cleared
       if (newData === '') {
@@ -46,14 +67,14 @@ export default function App() {
         return updateData;
       }
 
-      return [...previous, { id, inputData: newData }];
+      return [...previous, { id, group, inputData: newData }];
     });
   };
 
   return (
     <>
       <Header props={renderCV} />
-      <Content isEdit={isEdit} data={data} cb={addData} />
+      <Content isEdit={isEdit} data={data} cb={addData} cbTest={joinName} />
     </>
   );
 }

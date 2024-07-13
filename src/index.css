@@ -40,6 +40,8 @@ h2 {
 }
 
 form {
+  margin-left: 5px;
+  margin-right: 5px;
   background: #404040;
   display: flex;
   flex-direction: column;
@@ -50,6 +52,9 @@ form {
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
   }
+  > div:first-of-type {
+    padding-top: 5px;
+  }
   > :last-child {
     padding-bottom: 5px;
   }
@@ -59,6 +64,7 @@ form {
   display: flex;
   flex-direction: row;
   & label {
+    text-indent: 4px;
     padding: 2px;
     flex-basis: 100px;
     flex-shrink: 0;
@@ -68,5 +74,29 @@ form {
     flex-basis: 300px;
     flex-grow: 3;
     flex-shrink: 1;
+  }
+}
+
+.about {
+  background: #303030;
+  display: grid;
+  grid-template: 3fr 3fr 1fr / 1fr 1fr;
+  grid-template-areas:
+    'name picture'
+    'name picture'
+    'email phone';
+  min-height: 600px;
+  & .name {
+    grid-area: name;
+  }
+  & .email {
+    grid-area: email;
+  }
+  & .phone {
+    grid-area: phone;
+  }
+  & .name {
+    font-size: 72px;
+    font-weight: 500;
   }
 }

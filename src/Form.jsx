@@ -5,14 +5,15 @@ function Heading({ txt }) {
 }
 
 function Input({ cb, props }) {
-  let state;
-  const { type, id } = props;
-  type === 'tel' || type === 'number' ? (state = 0) : (state = '');
-  // const [input, setInput] = useState(state);
+  const { type, group, id } = props;
   return (
     <div className='inputfield'>
       <label htmlFor={id}>{id}</label>
-      <input type={type} onChange={e => cb.cb(e.target.value, id)} />
+      <input
+        type={type}
+        id={id}
+        onChange={e => cb.cb(e.target.value, group, id)}
+      />
     </div>
   );
 }
@@ -23,11 +24,14 @@ export default function Form(cb) {
   return (
     <form>
       <Heading txt={'About you'} />
-      <Input cb={cb} props={{ type: 'text', id: 'firstname' }} />
-      <Input cb={cb} props={{ type: 'text', id: 'lastname' }} />
-      <Input cb={cb} props={{ type: 'number', id: 'age' }} />
-      <Input cb={cb} props={{ type: 'mail', id: 'email' }} />
-      <Input cb={cb} props={{ type: 'tel', id: 'phone' }} />
+      <Input
+        cb={cb}
+        props={{ type: 'text', id: 'firstname', group: 'about' }}
+      />
+      <Input cb={cb} props={{ type: 'text', id: 'lastname', group: 'about' }} />
+      <Input cb={cb} props={{ type: 'number', id: 'age', group: 'about' }} />
+      <Input cb={cb} props={{ type: 'mail', id: 'email', group: 'about' }} />
+      <Input cb={cb} props={{ type: 'tel', id: 'phone', group: 'about' }} />
     </form>
   );
 }
