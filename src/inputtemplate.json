@@ -1,0 +1,32 @@
+{
+  "about": [
+    {
+      "id": "firstname",
+      "type": "text",
+      "group": "about",
+      "inputData": "",
+      "label": "First name: "
+    },
+    {
+      "id": "lastname",
+      "type": "text",
+      "group": "about",
+      "inputData": "",
+      "label": "Last name: "
+    },
+    {
+      "id": "email",
+      "type": "mail",
+      "group": "about",
+      "inputData": "",
+      "label": "Mail: "
+    },
+    {
+      "id": "phone",
+      "type": "number",
+      "group": "about",
+      "inputData": "",
+      "label": "Phonenumber: "
+    }
+  ]
+}

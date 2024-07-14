@@ -37,7 +37,7 @@ function joinName(data) {
 }
 
 function Content({ isEdit, data, cb }) {
-  if (isEdit) return <Form cb={cb} />;
+  if (isEdit) return <Form cb={cb} data={data} />;
   return <CV data={joinName(data)} />;
 }
 
@@ -74,7 +74,7 @@ export default function App() {
   return (
     <>
       <Header props={renderCV} />
-      <Content isEdit={isEdit} data={data} cb={addData} cbTest={joinName} />
+      <Content isEdit={isEdit} data={data} cb={addData} />
     </>
   );
 }
