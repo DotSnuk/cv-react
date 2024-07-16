@@ -27,6 +27,13 @@
       "group": "about",
       "inputData": "",
       "label": "Phonenumber: "
+    },
+    {
+      "id": "picture",
+      "type": "file",
+      "group": "about",
+      "inputData": "",
+      "label": "Picture: "
     }
   ]
 }

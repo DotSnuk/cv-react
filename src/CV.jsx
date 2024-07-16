@@ -2,12 +2,21 @@ function RenderLine({ inputData, id }) {
   return <div className={id}>{inputData}</div>;
 }
 
+function ProfilePicture({ inputData, id }) {
+  const url = URL.createObjectURL(inputData[0]);
+  return <img src={url} className='id' />;
+}
+
 function Section({ group, data }) {
   return (
     <div className={group}>
-      {data.map(d => (
-        <RenderLine key={d.id} id={d.id} inputData={d.inputData} />
-      ))}
+      {data.map(d =>
+        d.id === 'picture' ? (
+          <ProfilePicture key={d.id} id={d.id} inputData={d.inputData} />
+        ) : (
+          <RenderLine key={d.id} id={d.id} inputData={d.inputData} />
+        ),
+      )}
     </div>
   );
 }

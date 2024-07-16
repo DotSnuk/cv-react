@@ -38,6 +38,7 @@ function joinName(data) {
 
 function Content({ isEdit, data, cb }) {
   if (isEdit) return <Form cb={cb} data={data} />;
+
   return <CV data={joinName(data)} />;
 }
 
@@ -51,6 +52,7 @@ export default function App() {
 
   const addData = (newData, group, id) => {
     setData(previous => {
+      console.log(newData);
       // if input is cleared
       if (newData === '') {
         return previous.filter(p => p.id !== id);
