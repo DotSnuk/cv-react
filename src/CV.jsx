@@ -4,7 +4,7 @@ function RenderLine({ inputData, id }) {
 
 function ProfilePicture({ inputData, id }) {
   const url = URL.createObjectURL(inputData[0]);
-  return <img src={url} className='id' />;
+  return <img src={url} className={id} />;
 }
 
 function Section({ group, data }) {

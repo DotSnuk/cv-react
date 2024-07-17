@@ -4,32 +4,49 @@ function Heading({ txt }) {
   return <h2>{txt}</h2>;
 }
 
-function Input({ cb, props }) {
-  const { type, group, id, inputData, label } = props;
+function getAttributes({ cb, props }) {
+  const { type, group, id, inputData } = props;
 
-  // function to get right props
+  if (props.id === 'picture') {
+    return {
+      type: type,
+      id: id,
+      accept: 'image/*',
+      onChange: e => cb(e.target.files, group, id),
+    };
+  }
+
+  return {
+    type: type,
+    id: id,
+    value: inputData,
+    onChange: e => cb(e.target.value, group, id),
+  };
+}
+
+function Input({ cb, props }) {
+  const { label, id } = props;
+  const attributes = getAttributes({ cb, props });
 
   return (
     <div className='inputfield'>
       <label htmlFor={id}>{label}</label>
-      <input
-        type={type}
-        id={id}
-        {...(id === 'picture' && { accept: 'image/*' })}
-        {...(id === 'picture'
-          ? { onChange: e => cb(e.target.files, group, id) }
-          : { onChange: e => cb(e.target.value, group, id), value: inputData })}
-      />
+      <input {...attributes} />
     </div>
   );
 }
+
+// type={type}
+//         id={id}
+//         {...(id === 'picture' && { accept: 'image/*' })}
+//         {...(id === 'picture'
+//           ? { onChange: e => cb(e.target.files, group, id) }
+//           : { onChange: e => cb(e.target.value, group, id), value: inputData })}
 
 // onChange={e => cb(e.target.value, group, id)}
 
 function GetAbout({ cb, data }) {
   const inputs = inputTemplate.about;
-  console.log(data);
-  // cb('profile.jpeg', 'about', 'picture');
   return (
     <>
       {inputs.map(inp => {
