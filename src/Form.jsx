@@ -1,11 +1,12 @@
 import inputTemplate from './inputtemplate.json';
+import { useEffect } from 'react';
 
 function Heading({ txt }) {
   return <h2>{txt}</h2>;
 }
 
 function getAttributes({ cb, props }) {
-  const { type, group, id, inputData } = props;
+  const { type, group, id, inputData, required } = props;
 
   if (props.id === 'picture') {
     return {
@@ -20,7 +21,7 @@ function getAttributes({ cb, props }) {
     type: type,
     id: id,
     value: inputData,
-    onChange: e => cb(e.target.value, group, id),
+    onChange: e => cb(e.target.value, group, id, required),
   };
 }
 
@@ -45,15 +46,34 @@ function Input({ cb, props }) {
 
 // onChange={e => cb(e.target.value, group, id)}
 
+function initAddTemplate(cb, inputs) {
+  console.log(inputs);
+  inputs.map(item => {
+    cb(
+      item.inputData,
+      item.group,
+      item.id,
+      item.required,
+      item.type,
+      item.label,
+    );
+  });
+}
+
 function GetAbout({ cb, data }) {
   const inputs = inputTemplate.about;
+  useEffect(() => {
+    initAddTemplate(cb, inputs);
+  }, []);
+
   return (
     <>
-      {inputs.map(inp => {
-        const itemExists = data.findIndex(item => item.id === inp.id);
-        if (itemExists !== -1) inp.inputData = data[itemExists].inputData;
+      {inputs.map(item => {
+        // check for item exists
+        const itemExists = data.findIndex(d => d.id === item.id);
+        if (itemExists !== -1) item.inputData = data[itemExists].inputData;
 
-        return <Input key={inp.id} cb={cb} props={inp} />;
+        return <Input key={item.id} cb={cb} props={item} />;
       })}
     </>
   );
@@ -61,9 +81,11 @@ function GetAbout({ cb, data }) {
 
 export default function Form({ cb, data }) {
   return (
-    <form>
+    <form id='inputform'>
       <Heading txt={'About you'} />
       <GetAbout cb={cb} data={data.filter(d => d.group === 'about')} />
     </form>
   );
 }
+
+// onSubmit={submit}

@@ -5,35 +5,40 @@
       "type": "text",
       "group": "about",
       "inputData": "",
-      "label": "First name: "
+      "label": "First name: ",
+      "required": true
     },
     {
       "id": "lastname",
       "type": "text",
       "group": "about",
       "inputData": "",
-      "label": "Last name: "
+      "label": "Last name: ",
+      "required": true
     },
     {
       "id": "email",
       "type": "mail",
       "group": "about",
       "inputData": "",
-      "label": "Mail: "
+      "label": "Mail: ",
+      "required": true
     },
     {
       "id": "phone",
-      "type": "number",
+      "type": "tel",
       "group": "about",
       "inputData": "",
-      "label": "Phonenumber: "
+      "label": "Phone: ",
+      "required": true
     },
     {
       "id": "picture",
       "type": "file",
       "group": "about",
       "inputData": "",
-      "label": "Picture: "
+      "label": "Picture: ",
+      "required": false
     }
   ]
 }

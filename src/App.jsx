@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+// import { useEffect } from 'react';
 import Form from './Form';
 import CV from './CV';
 
 function Header({ props }) {
   // take in state, isEdit?
-  const click = () => props();
+  const click = e => props(e);
 
   return (
     <header>
@@ -16,6 +17,14 @@ function Header({ props }) {
   );
 }
 
+{
+  /* <button type='submit' form='inputform'>
+          Submit
+        </button> */
+}
+
+//         <input type='button' value='submit' onClick={click} />
+
 function isName(val) {
   return val.id === 'firstname' || val.id === 'lastname';
 }
@@ -23,6 +32,10 @@ function isName(val) {
 function compareName(a, b) {
   if (a.id > b.id) return 1;
   return -1;
+}
+
+function isEmpty(input) {
+  return input.trim() === '';
 }
 
 function joinName(data) {
@@ -36,8 +49,8 @@ function joinName(data) {
   return [{ id: 'name', group: 'about', inputData: name }, ...newData];
 }
 
-function Content({ isEdit, data, cb }) {
-  if (isEdit) return <Form cb={cb} data={data} />;
+function Content({ isEdit, data, cb, submit }) {
+  if (isEdit) return <Form cb={cb} data={data} submit={submit} />;
   return <CV data={joinName(data)} />;
 }
 
@@ -45,16 +58,28 @@ export default function App() {
   const [isEdit, setIsEdit] = useState(true);
   const [data, setData] = useState([]);
 
-  const renderCV = () => {
-    setIsEdit(!isEdit);
+  // change name
+  const renderCV = e => {
+    e.preventDefault();
+    console.log(data);
+    if (checkRequired()) {
+      setIsEdit(!isEdit);
+    }
   };
 
-  const addData = (newData, group, id) => {
+  const checkRequired = () => {
+    // const tempData = [...data];
+    // const filteredData = tempData.filter(d => d.required === true);
+    // return filteredData.every(elemnt => !isEmpty(elemnt.inputData));
+    return true;
+  };
+
+  const addData = (newData, group, id, required, type, label) => {
     setData(previous => {
       // if input is cleared
-      if (newData === '') {
-        return previous.filter(p => p.id !== id);
-      }
+      // if (newData === '') {
+      //   return previous.filter(p => p.id !== id);
+      // }
 
       // if id exists, update it
       const existItemIndex = previous.findIndex(item => item.id === id);
@@ -67,7 +92,10 @@ export default function App() {
         return updateData;
       }
 
-      return [...previous, { id, group, inputData: newData }];
+      return [
+        ...previous,
+        { id, group, type, label, required, inputData: newData },
+      ];
     });
   };
 

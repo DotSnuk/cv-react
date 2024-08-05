@@ -3,6 +3,7 @@ function RenderLine({ inputData, id }) {
 }
 
 function ProfilePicture({ inputData, id }) {
+  if (inputData === '') return null;
   const url = URL.createObjectURL(inputData[0]);
   return <img src={url} className={id} />;
 }
@@ -24,6 +25,7 @@ function Section({ group, data }) {
 export default function CV({ data }) {
   const dataArray = data;
   const ab = dataArray.filter(d => d.group === 'about');
+
   return (
     <div>
       <Section group={ab[0].group} data={ab} />
