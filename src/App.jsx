@@ -17,14 +17,6 @@ function Header({ props }) {
   );
 }
 
-{
-  /* <button type='submit' form='inputform'>
-          Submit
-        </button> */
-}
-
-//         <input type='button' value='submit' onClick={click} />
-
 function isName(val) {
   return val.id === 'firstname' || val.id === 'lastname';
 }
@@ -57,11 +49,15 @@ function Content({ isEdit, data, cb, submit }) {
 export default function App() {
   const [isEdit, setIsEdit] = useState(true);
   const [data, setData] = useState([]);
+  const [counter, setCounter] = useState({
+    education: 0,
+    work: 0,
+  });
 
   // change name
   const renderCV = e => {
     e.preventDefault();
-    console.log(data);
+
     if (checkRequired()) {
       setIsEdit(!isEdit);
     }
@@ -74,29 +70,16 @@ export default function App() {
     return true;
   };
 
-  const addData = (newData, group, id, required, type, label) => {
-    setData(previous => {
-      // if input is cleared
-      // if (newData === '') {
-      //   return previous.filter(p => p.id !== id);
-      // }
-
-      // if id exists, update it
-      const existItemIndex = previous.findIndex(item => item.id === id);
-      if (existItemIndex !== -1) {
-        const updateData = [...previous];
-        updateData[existItemIndex] = {
-          ...updateData[existItemIndex],
-          inputData: newData,
-        };
-        return updateData;
-      }
-
-      return [
-        ...previous,
-        { id, group, type, label, required, inputData: newData },
-      ];
-    });
+  const addData = (inputData, id, group) => {
+    setData(previous =>
+      previous.some(item => item.id === id && item.group === group)
+        ? previous.map(item =>
+            item.id === id && item.group === group
+              ? { ...item, inputData }
+              : item,
+          )
+        : [...previous, { inputData, id, group }],
+    );
   };
 
   return (

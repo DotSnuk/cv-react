@@ -4,7 +4,6 @@
       "id": "firstname",
       "type": "text",
       "group": "about",
-      "inputData": "",
       "label": "First name: ",
       "required": true
     },
@@ -12,7 +11,6 @@
       "id": "lastname",
       "type": "text",
       "group": "about",
-      "inputData": "",
       "label": "Last name: ",
       "required": true
     },
@@ -20,7 +18,6 @@
       "id": "email",
       "type": "mail",
       "group": "about",
-      "inputData": "",
       "label": "Mail: ",
       "required": true
     },
@@ -28,7 +25,6 @@
       "id": "phone",
       "type": "tel",
       "group": "about",
-      "inputData": "",
       "label": "Phone: ",
       "required": true
     },
@@ -36,9 +32,17 @@
       "id": "picture",
       "type": "file",
       "group": "about",
-      "inputData": "",
       "label": "Picture: ",
       "required": false
+    }
+  ],
+  "education": [
+    {
+      "id": "school",
+      "type": "text",
+      "group": "education",
+      "label": "School: ",
+      "required": true
     }
   ]
 }

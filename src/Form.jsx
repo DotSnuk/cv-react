@@ -1,4 +1,5 @@
 import inputTemplate from './inputtemplate.json';
+import plussvg from './assets/plus.svg';
 import { useEffect } from 'react';
 
 function Heading({ txt }) {
@@ -6,27 +7,25 @@ function Heading({ txt }) {
 }
 
 function getAttributes({ cb, props }) {
-  const { type, group, id, inputData, required } = props;
+  const { inputData, id, group } = props;
 
   if (props.id === 'picture') {
     return {
-      type: type,
       id: id,
       accept: 'image/*',
-      onChange: e => cb(e.target.files, group, id),
+      onChange: e => cb(e.target.files, id, group),
     };
   }
 
   return {
-    type: type,
     id: id,
     value: inputData,
-    onChange: e => cb(e.target.value, group, id, required),
+    onChange: e => cb(e.target.value, id, group),
   };
 }
 
 function Input({ cb, props }) {
-  const { label, id } = props;
+  const { id, label } = props;
   const attributes = getAttributes({ cb, props });
 
   return (
@@ -37,30 +36,30 @@ function Input({ cb, props }) {
   );
 }
 
-// type={type}
-//         id={id}
-//         {...(id === 'picture' && { accept: 'image/*' })}
-//         {...(id === 'picture'
-//           ? { onChange: e => cb(e.target.files, group, id) }
-//           : { onChange: e => cb(e.target.value, group, id), value: inputData })}
-
-// onChange={e => cb(e.target.value, group, id)}
-
 function initAddTemplate(cb, inputs) {
-  console.log(inputs);
   inputs.map(item => {
-    cb(
-      item.inputData,
-      item.group,
-      item.id,
-      item.required,
-      item.type,
-      item.label,
-    );
+    cb('', item.id, item.group);
   });
 }
 
-function GetAbout({ cb, data }) {
+function NewForm() {
+  // take parameter for which form it is
+  return (
+    <a href='#'>
+      <img className='svg' src={plussvg} />
+    </a>
+  );
+}
+
+function Education({ cb, data }) {
+  return (
+    <>
+      <NewForm />
+    </>
+  );
+}
+
+function About({ cb, data }) {
   const inputs = inputTemplate.about;
   useEffect(() => {
     initAddTemplate(cb, inputs);
@@ -68,10 +67,10 @@ function GetAbout({ cb, data }) {
 
   return (
     <>
-      {inputs.map(item => {
+      {data.map(item => {
         // check for item exists
-        const itemExists = data.findIndex(d => d.id === item.id);
-        if (itemExists !== -1) item.inputData = data[itemExists].inputData;
+        // const itemExists = data.findIndex(d => d.id === item.id);
+        // if (itemExists !== -1) item.inputData = data[itemExists].inputData;
 
         return <Input key={item.id} cb={cb} props={item} />;
       })}
@@ -79,13 +78,25 @@ function GetAbout({ cb, data }) {
   );
 }
 
+{
+  /* <>
+      {inputs.map(item => {
+        // check for item exists
+        const itemExists = data.findIndex(d => d.id === item.id);
+        if (itemExists !== -1) item.inputData = data[itemExists].inputData;
+
+        return <Input key={item.id} cb={cb} props={item} />;
+      })}
+    </> */
+}
+
 export default function Form({ cb, data }) {
   return (
     <form id='inputform'>
       <Heading txt={'About you'} />
-      <GetAbout cb={cb} data={data.filter(d => d.group === 'about')} />
+      <About cb={cb} data={data.filter(d => d.group === 'about')} />
+      <Heading txt={'Education'} />
+      <Education cb={cb} data={data.filter(d => d.group === 'education')} />
     </form>
   );
 }
-
-// onSubmit={submit}

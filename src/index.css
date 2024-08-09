@@ -124,6 +124,10 @@ img {
   width: 100%;
 }
 
+a img {
+  width: 75px;
+}
+
 @media (min-width: 700px) {
   body {
     margin: 40px;

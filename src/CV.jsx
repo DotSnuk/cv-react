@@ -32,11 +32,3 @@ export default function CV({ data }) {
     </div>
   );
 }
-// <RenderLine key={d.id} />
-//<RenderLine key={id} data={d.inputData} />
-//const about = d.filter((obj) => obj.group === 'about');
-
-//{dataArray.map(d => (
-//
-//   <RenderLine key={d.id} group={d.group} inputData={d.inputData} />
-// ))}
