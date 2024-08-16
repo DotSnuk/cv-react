@@ -43,13 +43,18 @@ function joinName(data) {
 
 function Content({ isEdit, data, cb, submit }) {
   if (isEdit) return <Form cb={cb} data={data} submit={submit} />;
-  return <CV data={joinName(data)} />;
+  return <CV data={data} />;
 }
 
 export default function App() {
   const [isEdit, setIsEdit] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    about: [],
+    education: [],
+    work: [],
+  });
   const [counter, setCounter] = useState({
+    about: 0,
     education: 0,
     work: 0,
   });
@@ -70,16 +75,41 @@ export default function App() {
     return true;
   };
 
-  const addData = (inputData, id, group) => {
-    setData(previous =>
-      previous.some(item => item.id === id && item.group === group)
-        ? previous.map(item =>
-            item.id === id && item.group === group
-              ? { ...item, inputData }
-              : item,
-          )
-        : [...previous, { inputData, id, group }],
-    );
+  const increaseCounter = group => {
+    setCounter(previous => {
+      return { ...previous, [group]: previous[group] + 1 };
+    });
+  };
+
+  const addData = (inputData, inputProp) => {
+    const { group } = inputProp;
+    setData(previous => {
+      if (
+        previous[group].some(item => item.data.inputProp.id === inputProp.id)
+      ) {
+        return {
+          ...previous,
+          [group]: previous[group].map(item => {
+            if (item.data.inputProp.id === inputProp.id) {
+              return { ...item, data: { ...item.data, inputData } };
+            }
+            return item;
+          }),
+        };
+      }
+      // check here if the id is not in the correct place. perhaps one data object deeper?
+
+      return {
+        ...previous,
+        [group]: [
+          ...previous[group],
+          {
+            groupId: counter.about,
+            data: { inputData, inputProp },
+          },
+        ],
+      };
+    });
   };
 
   return (

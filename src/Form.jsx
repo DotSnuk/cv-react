@@ -7,25 +7,22 @@ function Heading({ txt }) {
 }
 
 function getAttributes({ cb, props }) {
-  const { inputData, id, group } = props;
-
-  if (props.id === 'picture') {
+  if (props.inputProp.id === 'picture') {
     return {
-      id: id,
+      id: props.inputProp.id,
       accept: 'image/*',
-      onChange: e => cb(e.target.files, id, group),
+      onChange: e => cb(e.target.files, props.inputProp),
     };
   }
-
   return {
-    id: id,
-    value: inputData,
-    onChange: e => cb(e.target.value, id, group),
+    id: props.inputProp.id,
+    value: props.inputData,
+    onChange: e => cb(e.target.value, props.inputProp),
   };
 }
 
 function Input({ cb, props }) {
-  const { id, label } = props;
+  const { id, label } = props.inputProp;
   const attributes = getAttributes({ cb, props });
 
   return (
@@ -37,8 +34,8 @@ function Input({ cb, props }) {
 }
 
 function initAddTemplate(cb, inputs) {
-  inputs.map(item => {
-    cb('', item.id, item.group);
+  inputs.map(inputProperties => {
+    cb('', inputProperties);
   });
 }
 
@@ -67,36 +64,20 @@ function About({ cb, data }) {
 
   return (
     <>
-      {data.map(item => {
-        // check for item exists
-        // const itemExists = data.findIndex(d => d.id === item.id);
-        // if (itemExists !== -1) item.inputData = data[itemExists].inputData;
-
-        return <Input key={item.id} cb={cb} props={item} />;
+      {data.about.map(item => {
+        return <Input key={item.data.inputProp.id} cb={cb} props={item.data} />;
       })}
     </>
   );
-}
-
-{
-  /* <>
-      {inputs.map(item => {
-        // check for item exists
-        const itemExists = data.findIndex(d => d.id === item.id);
-        if (itemExists !== -1) item.inputData = data[itemExists].inputData;
-
-        return <Input key={item.id} cb={cb} props={item} />;
-      })}
-    </> */
 }
 
 export default function Form({ cb, data }) {
   return (
     <form id='inputform'>
       <Heading txt={'About you'} />
-      <About cb={cb} data={data.filter(d => d.group === 'about')} />
+      <About cb={cb} data={data} />
       <Heading txt={'Education'} />
-      <Education cb={cb} data={data.filter(d => d.group === 'education')} />
+      <Education cb={cb} data={data} />
     </form>
   );
 }
