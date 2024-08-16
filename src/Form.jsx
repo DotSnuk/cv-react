@@ -59,7 +59,11 @@ function Education({ cb, data }) {
 function About({ cb, data }) {
   const inputs = inputTemplate.about;
   useEffect(() => {
-    initAddTemplate(cb, inputs);
+    if (data.about.length === 0) {
+      // other solution for education and work will need to
+      // make use of groupId
+      initAddTemplate(cb, inputs);
+    }
   }, []);
 
   return (
