@@ -97,7 +97,6 @@ export default function App() {
           }),
         };
       }
-      // check here if the id is not in the correct place. perhaps one data object deeper?
 
       return {
         ...previous,
