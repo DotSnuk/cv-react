@@ -41,8 +41,8 @@ function joinName(data) {
   return [{ id: 'name', group: 'about', inputData: name }, ...newData];
 }
 
-function Content({ isEdit, data, cb, submit }) {
-  if (isEdit) return <Form cb={cb} data={data} submit={submit} />;
+function Content({ isEdit, data, cb, cbCounter }) {
+  if (isEdit) return <Form cb={cb} cbCounter={cbCounter} data={data} />;
   return <CV data={data} />;
 }
 
@@ -81,16 +81,24 @@ export default function App() {
     });
   };
 
-  const addData = (inputData, inputProp) => {
+  const addData = (inputData, inputProp, ...groupId) => {
     const { group } = inputProp;
+    const gId = groupId.length !== 0 ? groupId[0] : counter[group];
+
     setData(previous => {
       if (
-        previous[group].some(item => item.data.inputProp.id === inputProp.id)
+        previous[group].some(
+          item =>
+            item.data.inputProp.id === inputProp.id && item.groupId === gId,
+        )
       ) {
         return {
           ...previous,
           [group]: previous[group].map(item => {
-            if (item.data.inputProp.id === inputProp.id) {
+            if (
+              item.data.inputProp.id === inputProp.id &&
+              item.groupId === gId
+            ) {
               return { ...item, data: { ...item.data, inputData } };
             }
             return item;
@@ -103,7 +111,7 @@ export default function App() {
         [group]: [
           ...previous[group],
           {
-            groupId: counter.about,
+            groupId: gId,
             data: { inputData, inputProp },
           },
         ],
@@ -114,7 +122,12 @@ export default function App() {
   return (
     <>
       <Header props={renderCV} />
-      <Content isEdit={isEdit} data={data} cb={addData} />
+      <Content
+        isEdit={isEdit}
+        data={data}
+        cbCounter={increaseCounter}
+        cb={addData}
+      />
     </>
   );
 }

@@ -43,6 +43,13 @@
       "group": "education",
       "label": "School: ",
       "required": true
+    },
+    {
+      "id": "years",
+      "type": "text",
+      "group": "education",
+      "label": "Years: ",
+      "required": true
     }
   ]
 }

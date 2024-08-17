@@ -7,22 +7,22 @@ function Heading({ txt }) {
 }
 
 function getAttributes({ cb, props }) {
-  if (props.inputProp.id === 'picture') {
+  if (props.data.inputProp.id === 'picture') {
     return {
-      id: props.inputProp.id,
+      id: props.data.inputProp.id,
       accept: 'image/*',
-      onChange: e => cb(e.target.files, props.inputProp),
+      onChange: e => cb(e.target.files, props.data.inputProp, props.groupId),
     };
   }
   return {
-    id: props.inputProp.id,
-    value: props.inputData,
-    onChange: e => cb(e.target.value, props.inputProp),
+    id: props.data.inputProp.id,
+    value: props.data.inputData,
+    onChange: e => cb(e.target.value, props.data.inputProp, props.groupId),
   };
 }
 
 function Input({ cb, props }) {
-  const { id, label } = props.inputProp;
+  const { id, label } = props.data.inputProp;
   const attributes = getAttributes({ cb, props });
 
   return (
@@ -39,19 +39,38 @@ function initAddTemplate(cb, inputs) {
   });
 }
 
-function NewForm() {
-  // take parameter for which form it is
+function NewForm({ cb, cbCounter, group }) {
+  const inputs = inputTemplate[group];
+  const addInputs = e => {
+    e.preventDefault();
+    initAddTemplate(cb, inputs);
+    cbCounter(group);
+  };
+
   return (
-    <a href='#'>
+    <a
+      onClick={e => {
+        addInputs(e);
+      }}
+    >
       <img className='svg' src={plussvg} />
     </a>
   );
 }
 
-function Education({ cb, data }) {
+function Education({ cb, cbCounter, data }) {
   return (
     <>
-      <NewForm />
+      {data.education.map(item => {
+        return (
+          <Input
+            key={item.data.inputProp.id + item.groupId}
+            cb={cb}
+            props={item}
+          />
+        );
+      })}
+      <NewForm cb={cb} cbCounter={cbCounter} group={'education'} />
     </>
   );
 }
@@ -60,8 +79,6 @@ function About({ cb, data }) {
   const inputs = inputTemplate.about;
   useEffect(() => {
     if (data.about.length === 0) {
-      // other solution for education and work will need to
-      // make use of groupId
       initAddTemplate(cb, inputs);
     }
   }, []);
@@ -69,19 +86,25 @@ function About({ cb, data }) {
   return (
     <>
       {data.about.map(item => {
-        return <Input key={item.data.inputProp.id} cb={cb} props={item.data} />;
+        return (
+          <Input
+            key={item.data.inputProp.id + item.groupId}
+            cb={cb}
+            props={item}
+          />
+        );
       })}
     </>
   );
 }
 
-export default function Form({ cb, data }) {
+export default function Form({ cb, cbCounter, data }) {
   return (
     <form id='inputform'>
       <Heading txt={'About you'} />
       <About cb={cb} data={data} />
       <Heading txt={'Education'} />
-      <Education cb={cb} data={data} />
+      <Education cb={cb} cbCounter={cbCounter} data={data} />
     </form>
   );
 }
