@@ -48,13 +48,16 @@ function NewForm({ cb, cbCounter, group }) {
   };
 
   return (
-    <a
-      onClick={e => {
-        addInputs(e);
-      }}
-    >
-      <img className='svg' src={plussvg} />
-    </a>
+    <div className='newform'>
+      <a
+        href='#'
+        onClick={e => {
+          addInputs(e);
+        }}
+      >
+        <img className='svg' src={plussvg} />
+      </a>
+    </div>
   );
 }
 
