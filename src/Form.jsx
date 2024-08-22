@@ -6,27 +6,27 @@ function Heading({ txt }) {
   return <h2>{txt}</h2>;
 }
 
-function getAttributes({ cb, props }) {
-  if (props.data.inputProp.id === 'picture') {
+function getAttributes({ cb, props, groupId }) {
+  if (props.inputProp.id === 'picture') {
     return {
-      id: props.data.inputProp.id,
+      id: props.inputProp.id,
       accept: 'image/*',
-      onChange: e => cb(e.target.files, props.data.inputProp, props.groupId),
+      onChange: e => cb(e.target.files, props.inputProp, groupId),
     };
   }
   return {
-    id: props.data.inputProp.id,
-    value: props.data.inputData,
-    onChange: e => cb(e.target.value, props.data.inputProp, props.groupId),
+    id: props.inputProp.id,
+    value: props.inputData,
+    onChange: e => cb(e.target.value, props.inputProp, groupId),
   };
 }
 
-function Input({ cb, props }) {
-  const { id, label } = props.data.inputProp;
-  const attributes = getAttributes({ cb, props });
+function Input({ cb, props, groupId }) {
+  const { id, label } = props.inputProp;
+  const attributes = getAttributes({ cb, props, groupId });
 
   return (
-    <div className='inputfield'>
+    <div key={id} className='inputfield'>
       <label htmlFor={id}>{label}</label>
       <input {...attributes} />
     </div>
@@ -61,16 +61,37 @@ function NewForm({ cb, cbCounter, group }) {
   );
 }
 
-function Education({ cb, cbCounter, data }) {
+function Group({ cb, groupId, data }) {
   return (
     <>
-      {data.education.map(item => {
+      <div key={groupId}>{groupId}</div>
+      {data.map(item => {
         return (
           <Input
-            key={item.data.inputProp.id + item.groupId}
+            key={`${groupId}+${item.inputProp.id}`}
+            groupId={groupId}
             cb={cb}
             props={item}
           />
+        );
+      })}
+    </>
+  );
+}
+
+function Education({ cb, cbCounter, data }) {
+  return (
+    <>
+      {data.education.map(groupItem => {
+        return (
+          <>
+            <Group
+              cb={cb}
+              key={groupItem.groupId}
+              groupId={groupItem.groupId}
+              data={groupItem.data}
+            />
+          </>
         );
       })}
       <NewForm cb={cb} cbCounter={cbCounter} group={'education'} />
@@ -88,14 +109,15 @@ function About({ cb, data }) {
 
   return (
     <>
-      {data.about.map(item => {
-        return (
+      {data.about.map(groupItem => {
+        return groupItem.data.map(item => (
           <Input
-            key={item.data.inputProp.id + item.groupId}
+            key={groupItem.groupId + item.inputProp.id}
             cb={cb}
+            groupId={groupItem.groupId}
             props={item}
           />
-        );
+        ));
       })}
     </>
   );

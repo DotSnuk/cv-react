@@ -81,42 +81,126 @@ export default function App() {
     });
   };
 
+  // const addData = (inputData, inputProp, ...groupId) => {
+  //   const { group } = inputProp;
+  //   const gId = groupId.length !== 0 ? groupId[0] : counter[group];
+
+  //   setData(previous => {
+  //     if (
+  //       previous[group].some(
+  //         item =>
+  //           item.data.inputProp.id === inputProp.id && item.groupId === gId,
+  //       )
+  //     ) {
+  //       return {
+  //         ...previous,
+  //         [group]: previous[group].map(item => {
+  //           if (
+  //             item.data.inputProp.id === inputProp.id &&
+  //             item.groupId === gId
+  //           ) {
+  //             return { ...item, data: { ...item.data, inputData } };
+  //           }
+  //           return item;
+  //         }),
+  //       };
+  //     }
+
+  //     return {
+  //       ...previous,
+  //       [group]: [
+  //         ...previous[group],
+  //         {
+  //           groupId: gId,
+  //           data: { inputData, inputProp },
+  //         },
+  //       ],
+  //     };
+  //   });
+  // };
+
   const addData = (inputData, inputProp, ...groupId) => {
     const { group } = inputProp;
     const gId = groupId.length !== 0 ? groupId[0] : counter[group];
-
     setData(previous => {
-      if (
-        previous[group].some(
-          item =>
-            item.data.inputProp.id === inputProp.id && item.groupId === gId,
-        )
-      ) {
+      const groupWithId = previous[group].find(grp => grp.groupId === gId);
+      if (groupWithId === undefined) {
         return {
           ...previous,
-          [group]: previous[group].map(item => {
-            if (
-              item.data.inputProp.id === inputProp.id &&
-              item.groupId === gId
-            ) {
-              return { ...item, data: { ...item.data, inputData } };
-            }
-            return item;
-          }),
+          [group]: [
+            ...previous[group],
+            { groupId: gId, data: [{ inputData, inputProp }] },
+          ],
+        };
+      }
+
+      if (groupWithId.data.some(item => item.inputProp.id === inputProp.id)) {
+        const updatedData = groupWithId.data.map(item => {
+          if (item.inputProp.id === inputProp.id) {
+            return { ...item, inputData };
+          }
+          return item;
+        });
+
+        return {
+          ...previous,
+          [group]: previous[group].map(grp =>
+            grp.groupId === gId ? { ...grp, data: updatedData } : grp,
+          ),
         };
       }
 
       return {
         ...previous,
-        [group]: [
-          ...previous[group],
-          {
-            groupId: gId,
-            data: { inputData, inputProp },
-          },
-        ],
+        [group]: previous[group].map(grp =>
+          grp.groupId === gId
+            ? { ...grp, data: [...grp.data, { inputData, inputProp }] }
+            : grp,
+        ),
       };
     });
+
+    // return {
+    //   ...previous,
+    //   [group]: [
+    //     ...previous[group],
+    //     {
+    //       groupId: gId,
+    //       data: [...previous[group].data, { inputData, inputProp }],
+    //     },
+    //   ],
+    // };
+
+    //   if (
+    //     previous[group].some(
+    //       item => item[groupId].data.inputProp.id === inputProp.id,
+    //     )
+    //   ) {
+    //     return {
+    //       ...previous,
+    //       [group]: previous[group].map(item => {
+    //         if (
+    //           item.data.inputProp.id === inputProp.id &&
+    //           item.groupId === gId
+    //         ) {
+    //           return { ...item, data: { ...item.data, inputData } };
+    //         }
+    //         return item;
+    //       }),
+    //     };
+    //   }
+
+    //   return {
+    //     ...previous,
+    //     [group]: [
+    //       ...previous[group],
+    //       {
+    //         groupId: gId,
+    //         [data]: [...[data], { inputData, inputProp }],
+    //       },
+    //     ],
+    //   };
+    // });
   };
 
   return (

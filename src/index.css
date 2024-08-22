@@ -80,8 +80,9 @@ form {
     flex-grow: 1;
   }
   & input {
-    margin: 1px;
-    border-radius: 5px;
+    margin: 2px;
+    text-indent: 3px;
+    border-radius: 3px;
     border: none;
     outline: none;
     background-color: #2e2e2e;
