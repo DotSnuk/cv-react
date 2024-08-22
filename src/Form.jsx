@@ -68,7 +68,7 @@ function Group({ cb, groupId, data }) {
       {data.map(item => {
         return (
           <Input
-            key={`${groupId}+${item.inputProp.id}`}
+            key={`${groupId} + ${item.inputProp.id}`}
             groupId={groupId}
             cb={cb}
             props={item}
@@ -84,14 +84,12 @@ function Education({ cb, cbCounter, data }) {
     <>
       {data.education.map(groupItem => {
         return (
-          <>
-            <Group
-              cb={cb}
-              key={groupItem.groupId}
-              groupId={groupItem.groupId}
-              data={groupItem.data}
-            />
-          </>
+          <Group
+            cb={cb}
+            key={groupItem.groupId}
+            groupId={groupItem.groupId}
+            data={groupItem.data}
+          />
         );
       })}
       <NewForm cb={cb} cbCounter={cbCounter} group={'education'} />
@@ -124,6 +122,7 @@ function About({ cb, data }) {
 }
 
 export default function Form({ cb, cbCounter, data }) {
+  console.log(data);
   return (
     <form id='inputform'>
       <Heading txt={'About you'} />
