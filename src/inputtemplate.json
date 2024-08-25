@@ -1,17 +1,10 @@
 {
   "about": [
     {
-      "id": "firstname",
+      "id": "name",
       "type": "text",
       "group": "about",
-      "label": "First name: ",
-      "required": true
-    },
-    {
-      "id": "lastname",
-      "type": "text",
-      "group": "about",
-      "label": "Last name: ",
+      "label": "Full name: ",
       "required": true
     },
     {
@@ -45,11 +38,62 @@
       "required": true
     },
     {
-      "id": "years",
+      "id": "degree",
       "type": "text",
       "group": "education",
-      "label": "Years: ",
+      "label": "Degree: ",
+      "required": false
+    },
+    {
+      "id": "startdate",
+      "type": "date",
+      "group": "education",
+      "label": "Start date: ",
       "required": true
+    },
+    {
+      "id": "enddate",
+      "type": "date",
+      "group": "education",
+      "label": "End date: ",
+      "required": true
+    }
+  ],
+  "work": [
+    {
+      "id": "title",
+      "type": "text",
+      "group": "work",
+      "label": "Title: ",
+      "required": true
+    },
+    {
+      "id": "company",
+      "type": "text",
+      "group": "work",
+      "label": "Company: ",
+      "required": true
+    },
+    {
+      "id": "startdate",
+      "type": "date",
+      "group": "work",
+      "label": "Start date: ",
+      "required": true
+    },
+    {
+      "id": "enddate",
+      "type": "date",
+      "group": "work",
+      "label": "End date: ",
+      "required": true
+    },
+    {
+      "id": "tasks",
+      "type": "text",
+      "group": "work",
+      "label": "Tasks: ",
+      "required": false
     }
   ]
 }

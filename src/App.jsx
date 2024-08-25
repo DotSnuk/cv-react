@@ -81,45 +81,9 @@ export default function App() {
     });
   };
 
-  // const addData = (inputData, inputProp, ...groupId) => {
-  //   const { group } = inputProp;
-  //   const gId = groupId.length !== 0 ? groupId[0] : counter[group];
-
-  //   setData(previous => {
-  //     if (
-  //       previous[group].some(
-  //         item =>
-  //           item.data.inputProp.id === inputProp.id && item.groupId === gId,
-  //       )
-  //     ) {
-  //       return {
-  //         ...previous,
-  //         [group]: previous[group].map(item => {
-  //           if (
-  //             item.data.inputProp.id === inputProp.id &&
-  //             item.groupId === gId
-  //           ) {
-  //             return { ...item, data: { ...item.data, inputData } };
-  //           }
-  //           return item;
-  //         }),
-  //       };
-  //     }
-
-  //     return {
-  //       ...previous,
-  //       [group]: [
-  //         ...previous[group],
-  //         {
-  //           groupId: gId,
-  //           data: { inputData, inputProp },
-  //         },
-  //       ],
-  //     };
-  //   });
-  // };
-
   const addData = (inputData, inputProp, ...groupId) => {
+    // console.log(inputData);
+    // console.log(inputProp);
     const { group } = inputProp;
     const gId = groupId.length !== 0 ? groupId[0] : counter[group];
     setData(previous => {
@@ -141,7 +105,6 @@ export default function App() {
           }
           return item;
         });
-
         return {
           ...previous,
           [group]: previous[group].map(grp =>
@@ -159,48 +122,6 @@ export default function App() {
         ),
       };
     });
-
-    // return {
-    //   ...previous,
-    //   [group]: [
-    //     ...previous[group],
-    //     {
-    //       groupId: gId,
-    //       data: [...previous[group].data, { inputData, inputProp }],
-    //     },
-    //   ],
-    // };
-
-    //   if (
-    //     previous[group].some(
-    //       item => item[groupId].data.inputProp.id === inputProp.id,
-    //     )
-    //   ) {
-    //     return {
-    //       ...previous,
-    //       [group]: previous[group].map(item => {
-    //         if (
-    //           item.data.inputProp.id === inputProp.id &&
-    //           item.groupId === gId
-    //         ) {
-    //           return { ...item, data: { ...item.data, inputData } };
-    //         }
-    //         return item;
-    //       }),
-    //     };
-    //   }
-
-    //   return {
-    //     ...previous,
-    //     [group]: [
-    //       ...previous[group],
-    //       {
-    //         groupId: gId,
-    //         [data]: [...[data], { inputData, inputProp }],
-    //       },
-    //     ],
-    //   };
-    // });
   };
 
   return (

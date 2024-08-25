@@ -10,7 +10,6 @@ function ProfilePicture({ inputData, id }) {
 }
 
 function Section({ group, data }) {
-  console.log(data);
   return (
     <div className={group}>
       {data.map(d =>
