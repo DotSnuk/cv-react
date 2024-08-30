@@ -34,13 +34,6 @@ function Section({ group, data }) {
 }
 
 export default function CV({ data }) {
-  // return (
-  //   <>
-  //     {Object.entries(data).map(([key, value], i) => (
-  //       <Section key={i} group={key} data={value} />
-  //     ))}
-  //   </>
-  // );
   return (
     <>
       {Object.entries(data).map(([key, value]) => (

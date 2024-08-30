@@ -13,6 +13,7 @@ function getAttributes({ cb, props, groupId }) {
   if (props.inputProp.id === 'picture') {
     return {
       id: props.inputProp.id,
+      type: props.inputProp.type,
       accept: 'image/*',
       onChange: e => cb(e.target.files, props.inputProp, groupId),
     };
@@ -20,12 +21,14 @@ function getAttributes({ cb, props, groupId }) {
   if (props.inputProp.type === 'date') {
     return {
       id: props.inputProp.id,
+      type: props.inputProp.type,
       value: new Date().toString(),
       onChange: e => cb(new Date(e.target.value), props.inputProp, groupId),
     };
   }
   return {
     id: props.inputProp.id,
+    type: props.inputProp.type,
     value: props.inputData,
     onChange: e => cb(e.target.value, props.inputProp, groupId),
   };
