@@ -1,5 +1,4 @@
 function RenderLine({ inputData, id }) {
-  console.log(inputData);
   return <div className={id}>{inputData}</div>;
 }
 
@@ -10,34 +9,43 @@ function ProfilePicture({ inputData, id }) {
 }
 
 function Section({ group, data }) {
+  console.log(data);
   return (
     <div className={group}>
-      {data.map(d =>
-        d.data.id === 'picture' ? (
-          <ProfilePicture
-            key={d.data.id}
-            id={d.data.id}
-            inputData={d.data.inputData}
-          />
-        ) : (
-          <RenderLine
-            key={d.data.id}
-            id={d.data.id}
-            inputData={d.data.inputData}
-          />
-        ),
-      )}
+      {data.map(groupId => {
+        return groupId.data.map(d => {
+          return d.inputProp.id === 'picture' ? (
+            <ProfilePicture
+              key={d.inputProp.id}
+              id={d.inputProp.id}
+              inputData={d.inputData}
+            />
+          ) : (
+            <RenderLine
+              key={d.inputProp.id}
+              id={d.inputProp.id}
+              inputData={d.inputData}
+            />
+          );
+        });
+      })}
     </div>
   );
 }
 
 export default function CV({ data }) {
-  // const dataArray = data;
-  // const ab = dataArray.filter(d => d.group === 'about');
-
+  // return (
+  //   <>
+  //     {Object.entries(data).map(([key, value], i) => (
+  //       <Section key={i} group={key} data={value} />
+  //     ))}
+  //   </>
+  // );
   return (
-    <div>
-      <Section group={'about'} data={data.about} />
-    </div>
+    <>
+      {Object.entries(data).map(([key, value]) => (
+        <Section key={`${key}+${value.groupId}`} group={key} data={value} />
+      ))}
+    </>
   );
 }
